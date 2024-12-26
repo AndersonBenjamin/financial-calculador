@@ -24,6 +24,7 @@ phases:
       - echo "Iniciando fase de pós-build"
       - echo "Empurrando a imagem para o Amazon ECR"
       - docker push 014498650484.dkr.ecr.us-east-2.amazonaws.com/invest-calculator:latest
+      - cat imagedefinitions.json
 artifacts:
   files:
-    - '**/*'
+    - imagedefinitions.json
