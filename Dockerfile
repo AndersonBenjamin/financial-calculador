@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expor a porta padrao do Vite
-EXPOSE 8080
+EXPOSE 80
 
 # Comando para rodar o servidor de desenvolvimento
 CMD ["npm", "run", "dev"]
