@@ -3,25 +3,22 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Iniciando fase de instalação"
-      - echo "Verificando versão do Docker"
-      - docker --version
+      - echo "Fase de instalação - Atualizando pacotes"
+      - yum update -y
   pre_build:
     commands:
-      - echo "Iniciando fase de pré-build"
-      - echo "Fazendo login no Docker Registry"
-      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 014498650484.dkr.ecr.us-east-2.amazonaws.com/invest-calculator
+      - echo "Fase de pré-build - Clonando repositório (automático pelo CodeBuild)"
+      - echo "Preparando para gerar a página HTML"
   build:
     commands:
-      - echo "Iniciando fase de build"
-      - docker build -t financial-calculator .
-      - docker tag financial-calculator:latest 014498650484.dkr.ecr.us-east-2.amazonaws.com/invest-calculator:latest
+      - echo "Fase de build - Criando página HTML"
+      - echo "<!DOCTYPE html><html><head><title>Teste CodeBuild</title></head><body><h1>Build concluído com sucesso!</h1><p>Esta página foi gerada automaticamente pelo AWS CodeBuild.</p></body></html>" > index.html
   post_build:
     commands:
-      - echo "Iniciando fase de pós-build"
-      - echo "Empurrando a imagem para o Amazon ECR"
-      - docker push 014498650484.dkr.ecr.us-east-2.amazonaws.com/invest-calculator:latest
-      - echo "{\"imageUri\":\"014498650484.dkr.ecr.us-east-2.amazonaws.com/invest-calculator:latest\"}" > imagedefinitions.json
+      - echo "Fase de pós-build - Commitando e enviando alterações para o GitHub"
+      - git add index.html
+      - git commit -m "Adicionando página HTML gerada pelo CodeBuild"
+      - git push
 artifacts:
   files:
-    - imagedefinitions.json
+    - index.html
