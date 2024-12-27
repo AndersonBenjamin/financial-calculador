@@ -5,6 +5,7 @@ phases:
     runtime-versions:
       docker: 20 # Certifique-se de que a versão do Docker seja compatível
     commands:
+      - apt-get update && apt-get install -y docker
       - echo "Iniciando fase de instalação"
       - echo "Verificando versão do Docker"
       - docker --version
